@@ -12,6 +12,9 @@ content:
     path: data/site.json
     format: json
     fields:
+      - name: professional_label
+        label: Etichetta professionale
+        type: string
       - name: hero_kicker
         label: Frase di apertura
         type: string

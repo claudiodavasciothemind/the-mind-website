@@ -1,0 +1,15 @@
+THE MIND — Versione 4, predisposta per Pages CMS
+
+COME UTILIZZARE
+1. Carica i file di questa cartella nella RADICE del repository GitHub (sovrascrivendo i file omonimi).
+2. Pages CMS rilevera automaticamente .pages.yml.
+3. In Pages CMS, modifica "Homepage e biografia" e "Film e progetti".
+4. Media: carica i fotogrammi tramite il selettore immagini. I file vengono aggiunti a images/.
+5. I cambiamenti saranno visibili nel nuovo sito Cloudflare Pages collegato al repository GitHub. Il sito attuale caricato con ZIP NON si aggiorna automaticamente.
+
+NOTA
+- Il file HTML e lo stile originale sono conservati.
+- I contenuti sono in data/site.json e data/films.json.
+- Per aggiungere un film, usa un identificativo slug unico senza spazi e un link video YouTube.
+- Il film principale e la card televisiva conservano il trattamento speciale della homepage.
+- NON spostare ancora il dominio: collega prima il nuovo progetto Cloudflare Git e controlla il sito temporaneo.

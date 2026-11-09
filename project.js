@@ -61,18 +61,18 @@ const films = {
   }
 };
 const id=new URLSearchParams(location.search).get('film');
-const f=films[id]; if(!f){location.replace('index.html#work')} else {
+function render(f) {
+ if(!f){location.replace('index.html#work');return;}
  document.title=f.title+' — THE MIND | Claudio D’Avascio';
- document.querySelector('#film-title').textContent=f.title;
- document.querySelector('#film-category').textContent=f.category;
- document.querySelector('#film-description').textContent=f.description;
- document.querySelector('#film-year').textContent=f.year;
- document.querySelector('#film-format').textContent=f.format;
- document.querySelector('#film-cta').textContent=f.cta+' ↗';
- document.querySelector('#film-cta').href=f.url;
- document.querySelector('#project-hero').style.setProperty('--project-image',`url("https://i.ytimg.com/vi/${f.videoId}/maxresdefault.jpg")`);
- document.querySelector('meta[name=description]').content=f.description;
- // When an original film still exists locally, prefer it to the YouTube thumbnail.
- if (window.TheMindImages) window.TheMindImages.applyProject(id, document.querySelector('#project-hero'));
+ const show=(q,v)=>{let n=document.querySelector(q);if(n)n.textContent=v||'';};
+ show('#film-title',f.title);show('#film-category',f.category);show('#film-description',f.description);show('#film-year',f.year);show('#film-format',f.format);
+ show('#film-cta',f.cta||'WATCH THE VIDEO ↗');
+ document.querySelector('#film-cta').href=f.video_url||f.url||'#';
+ let hero=document.querySelector('#project-hero');
+ if(f.image && /^(\/images\/|images\/|https?:\/\/)/.test(f.image))hero.style.setProperty('--project-image',`url("${f.image.replace(/"/g,'%22')}")`);
+ else {const fallback = f.videoId || (()=>{try{let u=new URL(f.video_url||'');return u.hostname==='youtu.be'?u.pathname.slice(1):u.searchParams.get('v');}catch(e){return ''}})();if(fallback)hero.style.setProperty('--project-image',`url("https://i.ytimg.com/vi/${fallback}/maxresdefault.jpg")`);if(window.TheMindImages)window.TheMindImages.applyProject(id,hero);}
+ document.querySelector('meta[name=description]').content=f.description||'';
 }
+render(films[id]);
+fetch('data/films.json',{cache:'no-cache'}).then(r=>{if(!r.ok)throw Error('CMS data unavailable');return r.json()}).then(list=>render(list.find(f=>f.slug===id && f.visible!==false))).catch(()=>{});
 document.getElementById('year').textContent=new Date().getFullYear();

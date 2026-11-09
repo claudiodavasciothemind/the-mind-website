@@ -1,0 +1,87 @@
+
+media:
+  input: images
+  output: /images
+  extensions: [jpg, jpeg, png, webp, gif]
+  rename: safe
+
+content:
+  - name: homepage
+    label: Homepage e biografia
+    type: file
+    path: data/site.json
+    format: json
+    fields:
+      - name: hero_kicker
+        label: Frase di apertura
+        type: string
+      - name: hero_subtitle
+        label: Sottotitolo principale
+        type: text
+      - name: hero_image
+        label: Immagine grande in homepage
+        type: image
+      - name: intro_text
+        label: Presentazione dei film
+        type: text
+      - name: about_paragraph_1
+        label: Biografia - paragrafo 1
+        type: text
+      - name: about_paragraph_2
+        label: Biografia - paragrafo 2
+        type: text
+      - name: about_paragraph_3
+        label: Biografia - paragrafo 3
+        type: text
+      - name: contact_email
+        label: Email di contatto
+        type: string
+      - name: youtube_url
+        label: Link YouTube generale
+        type: string
+
+  - name: films
+    label: Film e progetti
+    type: file
+    path: data/films.json
+    format: json
+    list: true
+    fields:
+      - name: slug
+        label: Identificativo del film
+        type: string
+        required: true
+      - name: title
+        label: Titolo
+        type: string
+        required: true
+      - name: category
+        label: Categoria
+        type: string
+      - name: description
+        label: Sinossi
+        type: text
+      - name: year
+        label: Anno
+        type: string
+      - name: format
+        label: Durata e formato
+        type: string
+      - name: video_url
+        label: Link video YouTube
+        type: string
+      - name: image
+        label: Fotogramma o locandina
+        type: image
+      - name: homepage_label
+        label: Etichetta homepage
+        type: string
+      - name: homepage_kicker
+        label: Sottotitolo breve
+        type: string
+      - name: homepage_subtitle
+        label: Descrizione breve
+        type: string
+      - name: visible
+        label: Visibile nella homepage
+        type: boolean

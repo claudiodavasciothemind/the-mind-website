@@ -59,41 +59,97 @@
     }
   };
 
-  // Manifesto: l'ultima parola di ogni riga resta in corsivo.
+  // MANIFESTO — TESTO E PERSONALIZZAZIONE GRAFICA
+
   function updateManifesto(site) {
     const el = document.querySelector('.manifesto-text');
-
     if (!el) return;
 
     const line1 = site.manifesto_line_1;
     const line2 = site.manifesto_line_2;
 
-    if (typeof line1 !== 'string' ||
-        typeof line2 !== 'string') return;
+    const italic = site.manifesto_emphasis !== false;
 
-    el.replaceChildren();
+    if (
+      typeof line1 === 'string' &&
+      typeof line2 === 'string'
+    ) {
+      el.replaceChildren();
 
-    function addLine(value) {
-      const words = value.trim().split(/\s+/);
-      const last = words.pop();
+      function addLine(value) {
+        const words = value.trim().split(/\s+/);
+        const last = words.pop();
 
-      if (words.length) {
-        el.appendChild(
-          document.createTextNode(words.join(' ') + ' ')
-        );
+        if (words.length) {
+          el.appendChild(
+            document.createTextNode(words.join(' ') + ' ')
+          );
+        }
+
+        if (last) {
+          if (italic) {
+            const em = document.createElement('em');
+            em.textContent = last;
+            el.appendChild(em);
+          } else {
+            el.appendChild(
+              document.createTextNode(last)
+            );
+          }
+        }
       }
 
-      if (last) {
-        const em = document.createElement('em');
-        em.textContent = last;
-        el.appendChild(em);
-      }
+      addLine(line1);
+      el.appendChild(document.createElement('br'));
+      addLine(line2);
     }
 
-    addLine(line1);
-    el.appendChild(document.createElement('br'));
-    addLine(line2);
+    // Font: soltanto caratteri autorizzati
+    const fonts = {
+      'Manrope': '"Manrope", sans-serif',
+      'DM Sans': '"DM Sans", sans-serif',
+      'Georgia': 'Georgia, serif'
+    };
+
+    if (fonts[site.manifesto_font]) {
+      el.style.fontFamily = fonts[site.manifesto_font];
+    }
+
+    // Dimensione massima, con adattamento responsive
+    const size = Number(site.manifesto_size);
+
+    if (
+      site.manifesto_size !== '' &&
+      site.manifesto_size != null &&
+      Number.isFinite(size)
+    ) {
+      const safeSize = Math.min(
+        120,
+        Math.max(30, size)
+      );
+
+      el.style.fontSize =
+        `clamp(28px, 7vw, ${safeSize}px)`;
+    }
+
+    // Spaziatura delle lettere
+    const spacing = Number(site.manifesto_spacing);
+
+    if (
+      site.manifesto_spacing !== '' &&
+      site.manifesto_spacing != null &&
+      Number.isFinite(spacing)
+    ) {
+      const safeSpacing = Math.min(
+        0.15,
+        Math.max(-0.15, spacing)
+      );
+
+      el.style.letterSpacing = `${safeSpacing}em`;
+    }
   }
+
+  // GESTIONE DELLE SCHEDE DEI FILM
 
   function filmCard(film, index, template) {
     const card = template.cloneNode(true);
@@ -139,6 +195,8 @@
     return card;
   }
 
+  // CARICAMENTO DEI DATI DAL CMS
+
   async function go() {
     const [siteRes, filmsRes] = await Promise.all([
       fetch('data/site.json', { cache: 'no-cache' }),
@@ -153,7 +211,7 @@
       text('.hero-bottom p span', s.hero_subtitle);
       text('.intro-copy', s.intro_text);
 
-      // Testo del manifesto gestito da Pages CMS
+      // Manifesto: testi, font, dimensioni e corsivo
       updateManifesto(s);
 
       const ps = document.querySelectorAll(

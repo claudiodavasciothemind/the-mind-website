@@ -19,6 +19,8 @@ content:
       - {"name": "hero_kicker", "label": "Frase di apertura", "type": "string"}
       - {"name": "hero_subtitle", "label": "Sottotitolo principale", "type": "text"}
       - {"name": "hero_image", "label": "Immagine grande in homepage", "type": "image"}
+      - {"name": "intro_title_line_1", "label": "Titolo film - Prima riga", "type": "string"}
+      - {"name": "intro_title_line_2", "label": "Titolo film - Seconda riga", "type": "string"}
       - {"name": "intro_text", "label": "Presentazione dei film", "type": "text"}
       - {"name": "manifesto_line_1", "label": "Manifesto - Prima riga", "type": "string"}
       - {"name": "manifesto_line_2", "label": "Manifesto - Seconda riga", "type": "string"}

@@ -53,10 +53,8 @@ content:
           max: 120
       - name: manifesto_spacing
         label: Manifesto - Spaziatura lettere (em)
-        type: number
-        options:
-          min: -0.15
-          max: 0.15
+        type: string
+        description: "Esempio: -0.065 (usa il punto)"
       - name: manifesto_emphasis
         label: Manifesto - Ultima parola in corsivo
         type: boolean

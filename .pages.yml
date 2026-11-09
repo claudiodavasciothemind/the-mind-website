@@ -27,12 +27,40 @@ content:
       - name: intro_text
         label: Presentazione dei film
         type: text
+
       - name: manifesto_line_1
         label: Manifesto - Prima riga
         type: string
       - name: manifesto_line_2
         label: Manifesto - Seconda riga
         type: string
+      - name: manifesto_font
+        label: Manifesto - Carattere
+        type: select
+        options:
+          values:
+            - name: Manrope
+              label: Manrope - Originale
+            - name: DM Sans
+              label: DM Sans - Moderno
+            - name: Georgia
+              label: Georgia - Editoriale
+      - name: manifesto_size
+        label: Manifesto - Dimensione massima (px)
+        type: number
+        options:
+          min: 30
+          max: 120
+      - name: manifesto_spacing
+        label: Manifesto - Spaziatura lettere (em)
+        type: number
+        options:
+          min: -0.15
+          max: 0.15
+      - name: manifesto_emphasis
+        label: Manifesto - Ultima parola in corsivo
+        type: boolean
+
       - name: about_paragraph_1
         label: Biografia - paragrafo 1
         type: text

@@ -75,6 +75,15 @@ content:
       - name: manifesto_emphasis
         label: Manifesto - Ultima parola in corsivo
         type: boolean
+      - name: contact_kicker
+        label: Contatti - Frase piccola
+        type: string
+      - name: contact_line_1
+        label: Contatti - Prima riga
+        type: string
+      - name: contact_line_2
+        label: Contatti - Seconda riga
+        type: string
       - name: about_paragraph_1
         label: Biografia - paragrafo 1
         type: text

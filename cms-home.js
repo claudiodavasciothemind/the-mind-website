@@ -18,6 +18,7 @@
   const setImage = (el, value) => {
     if (el && isImage(value)) {
       const url = value.replace(/"/g, '%22');
+
       el.style.setProperty(
         '--project-image',
         `url("${url}")`
@@ -61,6 +62,37 @@
       );
     }
   };
+
+  // TITOLO SELECTED WORK
+
+  function updateIntroTitle(site) {
+    const el = document.querySelector(
+      '.intro-layout .big-heading'
+    );
+
+    if (!el) return;
+
+    const line1 = site.intro_title_line_1;
+    const line2 = site.intro_title_line_2;
+
+    if (
+      typeof line1 !== 'string' ||
+      typeof line2 !== 'string'
+    ) {
+      return;
+    }
+
+    const br = document.createElement('br');
+    const em = document.createElement('em');
+
+    em.textContent = line2;
+
+    el.replaceChildren(
+      document.createTextNode(line1),
+      br,
+      em
+    );
+  }
 
   // MANIFESTO
 
@@ -152,7 +184,6 @@
   }
 
   // CONTACT — TESTI E DIMENSIONI
-  // Preserva lo stile originale del sito.
 
   function updateContact(site) {
     const kicker =
@@ -200,7 +231,8 @@
       const line = document.createElement('span');
       line.className = className;
 
-      const words = value.trim().split(/\s+/)
+      const words = value.trim()
+        .split(/\s+/)
         .filter(Boolean);
 
       const normal = words.slice(0, -2).join(' ');
@@ -235,20 +267,13 @@
     arrow.className = 'cms-contact-arrow';
     arrow.textContent = '↗';
 
-    // La prima riga termina con un ritorno a capo.
-    // La freccia rimane accanto alla seconda riga.
     heading.replaceChildren(
       first,
       second,
       arrow
     );
 
-    // Regole più specifiche del CSS originale,
-    // per evitare che le righe ereditino
-    // il font e i margini della freccia.
-
     const styleId = 'cms-contact-styles';
-
     let style = document.getElementById(styleId);
 
     if (!style) {
@@ -394,7 +419,7 @@
     return card;
   }
 
-  // CARICAMENTO DEI DATI DAL CMS
+  // CARICAMENTO DATI DAL CMS
 
   async function go() {
     const [siteRes, filmsRes] = await Promise.all([
@@ -411,6 +436,7 @@
       );
 
       text('.hero-kicker', s.hero_kicker);
+
       text(
         '.hero-bottom p span',
         s.hero_subtitle
@@ -418,7 +444,13 @@
 
       text('.intro-copy', s.intro_text);
 
+      // Nuovo titolo SELECTED WORK
+      updateIntroTitle(s);
+
+      // Manifesto
       updateManifesto(s);
+
+      // Contatti
       updateContact(s);
 
       const ps = document.querySelectorAll(

@@ -27,6 +27,12 @@ content:
       - name: intro_text
         label: Presentazione dei film
         type: text
+      - name: manifesto_line_1
+        label: Manifesto - Prima riga
+        type: string
+      - name: manifesto_line_2
+        label: Manifesto - Seconda riga
+        type: string
       - name: about_paragraph_1
         label: Biografia - paragrafo 1
         type: text

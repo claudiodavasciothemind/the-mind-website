@@ -18,7 +18,10 @@
   const setImage = (el, value) => {
     if (el && isImage(value)) {
       const url = value.replace(/"/g, '%22');
-      el.style.setProperty('--project-image', `url("${url}")`);
+      el.style.setProperty(
+        '--project-image',
+        `url("${url}")`
+      );
 
       if (el.classList.contains('hero-image')) {
         el.style.backgroundImage = `url("${url}")`;
@@ -59,7 +62,7 @@
     }
   };
 
-  // MANIFESTO — TESTO E PERSONALIZZAZIONE GRAFICA
+  // MANIFESTO
 
   function updateManifesto(site) {
     const el = document.querySelector('.manifesto-text');
@@ -81,7 +84,9 @@
 
         if (words.length) {
           el.appendChild(
-            document.createTextNode(words.join(' ') + ' ')
+            document.createTextNode(
+              words.join(' ') + ' '
+            )
           );
         }
 
@@ -104,9 +109,9 @@
     }
 
     const fonts = {
-      'Manrope': '"Manrope", sans-serif',
+      Manrope: '"Manrope", sans-serif',
       'DM Sans': '"DM Sans", sans-serif',
-      'Georgia': 'Georgia, serif'
+      Georgia: 'Georgia, serif'
     };
 
     if (fonts[site.manifesto_font]) {
@@ -120,8 +125,13 @@
       site.manifesto_size != null &&
       Number.isFinite(size)
     ) {
-      const safeSize = Math.min(120, Math.max(30, size));
-      el.style.fontSize = `clamp(28px, 7vw, ${safeSize}px)`;
+      const safeSize = Math.min(
+        120,
+        Math.max(30, size)
+      );
+
+      el.style.fontSize =
+        `clamp(28px, 7vw, ${safeSize}px)`;
     }
 
     const spacing = Number(site.manifesto_spacing);
@@ -136,15 +146,20 @@
         Math.max(-0.15, spacing)
       );
 
-      el.style.letterSpacing = `${safeSpacing}em`;
+      el.style.letterSpacing =
+        `${safeSpacing}em`;
     }
   }
 
-  // CONTACT — TESTI E DIMENSIONI INDIPENDENTI
+  // CONTACT — TESTI E DIMENSIONI
+  // Preserva lo stile originale del sito.
 
   function updateContact(site) {
-    const kicker = document.querySelector('.contact-kicker');
-    const heading = document.querySelector('.contact-heading');
+    const kicker =
+      document.querySelector('.contact-kicker');
+
+    const heading =
+      document.querySelector('.contact-heading');
 
     if (
       kicker &&
@@ -153,17 +168,20 @@
       kicker.textContent = site.contact_kicker;
     }
 
-    const kickerSize = Number(site.contact_kicker_size);
+    if (kicker) {
+      const size = Number(site.contact_kicker_size);
 
-    if (
-      kicker &&
-      site.contact_kicker_size != null &&
-      site.contact_kicker_size !== '' &&
-      Number.isFinite(kickerSize) &&
-      kickerSize > 0
-    ) {
-      kicker.style.fontSize =
-        `${Math.min(100, Math.max(8, kickerSize))}px`;
+      if (
+        site.contact_kicker_size != null &&
+        site.contact_kicker_size !== '' &&
+        Number.isFinite(size) &&
+        size > 0
+      ) {
+        kicker.style.fontSize =
+          `${Math.min(100, Math.max(8, size))}px`;
+      } else {
+        kicker.style.removeProperty('font-size');
+      }
     }
 
     if (!heading) return;
@@ -178,18 +196,15 @@
         ? site.contact_line_2
         : 'WE CAN CREATE IT.';
 
-    // Il testo viene inserito in modo sicuro,
-    // senza interpretare codice HTML dal CMS.
-    // Le ultime due parole restano in corsivo.
-
-    function makeLine(value) {
-      const words = value.trim().split(/\s+/).filter(Boolean);
+    function buildLine(value, className) {
       const line = document.createElement('span');
+      line.className = className;
 
-      line.className = 'cms-contact-line';
+      const words = value.trim().split(/\s+/)
+        .filter(Boolean);
 
       const normal = words.slice(0, -2).join(' ');
-      const italic = words.slice(-2).join(' ');
+      const emphasized = words.slice(-2).join(' ');
 
       if (normal) {
         line.appendChild(
@@ -197,95 +212,138 @@
         );
       }
 
-      if (italic) {
+      if (emphasized) {
         const em = document.createElement('em');
-        em.textContent = italic;
+        em.textContent = emphasized;
         line.appendChild(em);
       }
 
       return line;
     }
 
-    const first = makeLine(line1);
-    const second = makeLine(line2);
-
-    const firstSize = Number(site.contact_line_1_size);
-    const secondSize = Number(site.contact_line_2_size);
-
-    if (
-      site.contact_line_1_size != null &&
-      site.contact_line_1_size !== '' &&
-      Number.isFinite(firstSize) &&
-      firstSize > 0
-    ) {
-      const value = Math.min(200, Math.max(16, firstSize));
-      first.style.fontSize = `min(${value}px, 9vw)`;
-    }
-
-    if (
-      site.contact_line_2_size != null &&
-      site.contact_line_2_size !== '' &&
-      Number.isFinite(secondSize) &&
-      secondSize > 0
-    ) {
-      const value = Math.min(200, Math.max(16, secondSize));
-      second.style.fontSize = `min(${value}px, 9vw)`;
-    }
-
-    // Conserva la freccia e il link email.
-    // Evita che gli stili della freccia
-    // vengano applicati alle nuove righe.
-
-    const arrow = Array.from(heading.children).find(
-      el => el.tagName === 'SPAN' &&
-        !el.classList.contains('cms-contact-line')
+    const first = buildLine(
+      line1,
+      'cms-contact-first'
     );
 
-    const arrowNode = arrow
-      ? arrow.cloneNode(true)
-      : document.createElement('span');
+    const second = buildLine(
+      line2,
+      'cms-contact-second'
+    );
 
-    if (!arrow) {
-      arrowNode.textContent = '↗';
-    }
+    const arrow = document.createElement('span');
+    arrow.className = 'cms-contact-arrow';
+    arrow.textContent = '↗';
 
-    heading.replaceChildren(first, second, arrowNode);
+    // La prima riga termina con un ritorno a capo.
+    // La freccia rimane accanto alla seconda riga.
+    heading.replaceChildren(
+      first,
+      second,
+      arrow
+    );
 
-    // Stile delle due righe: ereditano il font
-    // e il colore originali del titolo.
-    const styleId = 'cms-contact-line-styles';
+    // Regole più specifiche del CSS originale,
+    // per evitare che le righe ereditino
+    // il font e i margini della freccia.
 
-    if (!document.getElementById(styleId)) {
-      const style = document.createElement('style');
+    const styleId = 'cms-contact-styles';
+
+    let style = document.getElementById(styleId);
+
+    if (!style) {
+      style = document.createElement('style');
       style.id = styleId;
-
-      style.textContent = `
-        .contact-heading > .cms-contact-line {
-          display: block;
-          position: static;
-          width: auto;
-          height: auto;
-          margin: 0;
-          padding: 0;
-          transform: none;
-          font-family: inherit;
-          font-weight: inherit;
-          font-style: inherit;
-          line-height: inherit;
-          letter-spacing: inherit;
-          color: inherit;
-        }
-
-        .contact-heading > .cms-contact-line em {
-          font-style: italic;
-        }
-      `;
-
       document.head.appendChild(style);
     }
+
+    style.textContent = `
+      .contact-heading > .cms-contact-first,
+      .contact-heading > .cms-contact-second {
+        font-family: inherit;
+        font-size: inherit;
+        font-weight: inherit;
+        font-style: normal;
+        line-height: inherit;
+        letter-spacing: inherit;
+        color: inherit;
+        margin-left: 0;
+        padding: 0;
+        transform: none;
+        position: static;
+        width: auto;
+        height: auto;
+      }
+
+      .contact-heading > .cms-contact-first {
+        display: block;
+      }
+
+      .contact-heading > .cms-contact-second {
+        display: inline;
+      }
+
+      .contact-heading > .cms-contact-first em,
+      .contact-heading > .cms-contact-second em {
+        font-weight: 300;
+        font-style: normal;
+        color: #8d8b86;
+      }
+
+      .contact-heading:hover .cms-contact-first em,
+      .contact-heading:hover .cms-contact-second em {
+        color: var(--accent);
+      }
+
+      .contact-heading > .cms-contact-arrow {
+        font: 300 .56em Manrope, sans-serif;
+        color: var(--accent);
+        margin-left: 22px;
+      }
+
+      @media (max-width: 620px) {
+        .contact-heading > .cms-contact-arrow {
+          margin-left: 6px;
+        }
+      }
+    `;
+
+    function applyLineSize(el, rawValue) {
+      const size = Number(rawValue);
+
+      if (
+        rawValue != null &&
+        rawValue !== '' &&
+        Number.isFinite(size) &&
+        size > 0
+      ) {
+        const safeSize = Math.min(
+          200,
+          Math.max(16, size)
+        );
+
+        el.style.setProperty(
+          'font-size',
+          `clamp(36px, 10vw, ${safeSize}px)`,
+          'important'
+        );
+      } else {
+        el.style.removeProperty('font-size');
+      }
+    }
+
+    applyLineSize(
+      first,
+      site.contact_line_1_size
+    );
+
+    applyLineSize(
+      second,
+      site.contact_line_2_size
+    );
   }
 
-  // GESTIONE DELLE SCHEDE DEI FILM
+  // SCHEDE DEI FILM
 
   function filmCard(film, index, template) {
     const card = template.cloneNode(true);
@@ -302,7 +360,10 @@
         `${String(index + 1).padStart(2, '0')} / ${film.homepage_label || film.category || 'FILM'}`
       );
 
-      safeText(header.children[1], film.year || '');
+      safeText(
+        header.children[1],
+        film.year || ''
+      );
     }
 
     safeText(
@@ -318,12 +379,14 @@
       const dot = document.createElement('span');
       dot.className = 'project-dot';
       dot.textContent = '.';
+
       h.appendChild(dot);
     }
 
     safeText(
       card.querySelector('.project-info p'),
-      film.homepage_subtitle || film.format || ''
+      film.homepage_subtitle ||
+      film.format || ''
     );
 
     setFallbackImg(card, film);
@@ -342,15 +405,20 @@
     if (siteRes.ok) {
       const s = await siteRes.json();
 
-      text('.eyebrow-year', s.professional_label);
+      text(
+        '.eyebrow-year',
+        s.professional_label
+      );
+
       text('.hero-kicker', s.hero_kicker);
-      text('.hero-bottom p span', s.hero_subtitle);
+      text(
+        '.hero-bottom p span',
+        s.hero_subtitle
+      );
+
       text('.intro-copy', s.intro_text);
 
-      // Manifesto
       updateManifesto(s);
-
-      // Contatti: testi e dimensioni
       updateContact(s);
 
       const ps = document.querySelectorAll(
@@ -381,7 +449,9 @@
           '.contact-bottom a[target="_blank"]'
         );
 
-        if (yt) yt.href = s.youtube_url;
+        if (yt) {
+          yt.href = s.youtube_url;
+        }
       }
 
       if (isImage(s.hero_image)) {
@@ -394,7 +464,9 @@
 
     if (filmsRes.ok) {
       const films = (await filmsRes.json())
-        .filter(f => f && f.visible !== false);
+        .filter(f =>
+          f && f.visible !== false
+        );
 
       const feature = document.querySelector(
         '.projects > .feature'
@@ -413,7 +485,9 @@
       const tile = grid.querySelector('.tile');
       if (!tile) return;
 
-      const reel = films.find(f => f.slug === 'reel');
+      const reel = films.find(
+        f => f.slug === 'reel'
+      );
 
       if (reel) {
         feature.href =
@@ -444,7 +518,9 @@
           f.slug !== 'coliandro'
         )
         .forEach(f =>
-          grid.appendChild(filmCard(f, i++, tile))
+          grid.appendChild(
+            filmCard(f, i++, tile)
+          )
         );
 
       const tv = films.find(

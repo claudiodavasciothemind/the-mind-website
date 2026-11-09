@@ -21,7 +21,7 @@ function filmCard(film,index,template) {
 }
 async function go() {
  const [siteRes,filmsRes]=await Promise.all([fetch('data/site.json',{cache:'no-cache'}),fetch('data/films.json',{cache:'no-cache'})]);
- if(siteRes.ok){let s=await siteRes.json();text('.hero-kicker',s.hero_kicker);text('.hero-bottom p span',s.hero_subtitle);text('.intro-copy',s.intro_text);
+ if(siteRes.ok){let s=await siteRes.json();text('.hero-kicker',s.hero_kicker);text('.hero-bottom p span',s.hero_subtitle);text('.intro-copy',s.intro_text);text('.eyebrow-year',s.professional_label);
  const ps=document.querySelectorAll('.about-body > p');[s.about_paragraph_1,s.about_paragraph_2,s.about_paragraph_3].forEach((p,i)=>safeText(ps[i],p));
  if(s.contact_email){document.querySelectorAll('a[href^="mailto:"]').forEach(a=>a.href=`mailto:${s.contact_email}`);text('.contact-bottom a',s.contact_email.toUpperCase());}
  if(s.youtube_url){let yt=document.querySelector('.contact-bottom a[target="_blank"]');if(yt)yt.href=s.youtube_url;}

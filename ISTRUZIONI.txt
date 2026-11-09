@@ -1,0 +1,27 @@
+THE MIND — CONTROLLI DI TUTTA LA TIPOGRAFIA
+
+Questo pacchetto aggiunge una sezione 'Grafica e tipografia' a Pages CMS.
+Non sovrascrive testi, film, immagini, site.json, cms-home.js o styles.css.
+
+1) Su GitHub nel repository the-mind-website:
+   - SOSTITUISCI il file .pages.yml con quello di questo pacchetto.
+   - CARICA il file typography.js nella cartella principale.
+   - CARICA data/typography.json nella cartella data.
+
+2) Apri index.html con la matita. Subito prima di </body> aggiungi:
+   <script src="typography.js"></script>
+   Salva con Commit changes.
+
+3) Fai la stessa aggiunta in project.html prima di </body>, per personalizzare
+   anche i testi delle pagine dei film.
+
+4) Apri Pages CMS e aggiorna la pagina: comparirà 'Grafica e tipografia'.
+   Dimensione 0 e campi vuoti significano 'usa il design attuale'.
+   Il font Originale non cambia niente.
+   Per spaziatura inserisci decimali con il punto: per esempio -0.065.
+
+NOTA: Il sito è collegato a GitHub e Cloudflare: ogni commit sul ramo main
+può pubblicare il cambiamento. Non sostituire i file del sito con una vecchia versione.
+
+Questa soluzione controlla le principali famiglie di testo, raggruppando testi
+che condividono lo stesso stile; non ogni singola parola separatamente.

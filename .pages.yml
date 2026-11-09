@@ -1,128 +1,144 @@
-          max: 260
-      - name: about_lead_spacing
-        label: "Primo paragrafo biografia — Spaziatura em (vuoto = originale)"
-        type: string
-      - name: about_body_font
-        label: "Altri paragrafi biografia — Font"
-        type: select
-        options:
-          values:
-            - name: Originale
-              label: Originale (nessuna modifica)
-            - name: Manrope
-              label: Manrope
-            - name: DM Sans
-              label: DM Sans
-            - name: Georgia
-              label: Georgia
-      - name: about_body_size
-        label: "Altri paragrafi biografia — Dimensione px (0 = originale)"
-        type: number
-        options:
-          min: 0
-          max: 260
-      - name: about_body_spacing
-        label: "Altri paragrafi biografia — Spaziatura em (vuoto = originale)"
-        type: string
-      - name: contact_title_font
-        label: "LET’S CREATE SOMETHING — Font"
-        type: select
-        options:
-          values:
-            - name: Originale
-              label: Originale (nessuna modifica)
-            - name: Manrope
-              label: Manrope
-            - name: DM Sans
-              label: DM Sans
-            - name: Georgia
-              label: Georgia
-      - name: contact_title_size
-        label: "LET’S CREATE SOMETHING — Dimensione px (0 = originale)"
-        type: number
-        options:
-          min: 0
-          max: 260
-      - name: contact_title_spacing
-        label: "LET’S CREATE SOMETHING — Spaziatura em (vuoto = originale)"
-        type: string
-      - name: contact_details_font
-        label: "Email e link contatti — Font"
-        type: select
-        options:
-          values:
-            - name: Originale
-              label: Originale (nessuna modifica)
-            - name: Manrope
-              label: Manrope
-            - name: DM Sans
-              label: DM Sans
-            - name: Georgia
-              label: Georgia
-      - name: contact_details_size
-        label: "Email e link contatti — Dimensione px (0 = originale)"
-        type: number
-        options:
-          min: 0
-          max: 260
-      - name: contact_details_spacing
-        label: "Email e link contatti — Spaziatura em (vuoto = originale)"
-        type: string
-      - name: film_page_title_font
-        label: "Titolo nella scheda del film — Font"
-        type: select
-        options:
-          values:
-            - name: Originale
-              label: Originale (nessuna modifica)
-            - name: Manrope
-              label: Manrope
-            - name: DM Sans
-              label: DM Sans
-            - name: Georgia
-              label: Georgia
-      - name: film_page_title_size
-        label: "Titolo nella scheda del film — Dimensione px (0 = originale)"
-        type: number
-        options:
-          min: 0
-          max: 260
-      - name: film_page_title_spacing
-        label: "Titolo nella scheda del film — Spaziatura em (vuoto = originale)"
-        type: string
-      - name: film_page_body_font
-        label: "Sinossi nella scheda del film — Font"
-        type: select
-        options:
-          values:
-            - name: Originale
-              label: Originale (nessuna modifica)
-            - name: Manrope
-              label: Manrope
-            - name: DM Sans
-              label: DM Sans
-            - name: Georgia
-              label: Georgia
-      - name: film_page_body_size
-        label: "Sinossi nella scheda del film — Dimensione px (0 = originale)"
-        type: number
-        options:
-          min: 0
-          max: 260
-      - name: film_page_body_spacing
-        label: "Sinossi nella scheda del film — Spaziatura em (vuoto = originale)"
-        type: string
-      - name: footer_font
-        label: "Testi del piè di pagina — Font"
-        type: select
-        options:
-          values:
-            - name: Originale
-              label: Originale (nessuna modifica)
-            - name: Manrope
-              label: Manrope
-            - name: DM Sans
-              label: DM Sans
-            - name: Georgia
-              label: Georgia
-      - name: footer_size
+
+media:
+  input: images
+  output: /images
+  extensions: [jpg, jpeg, png, webp, gif]
+  rename: safe
+
+content:
+  - name: homepage
+    label: Homepage e biografia
+    type: file
+    path: data/site.json
+    format: json
+    fields:
+      - {"name": "professional_label", "label": "Etichetta professionale", "type": "string"}
+      - {"name": "hero_title_font", "label": "Nome principale - Font", "type": "select", "options": {"values": [{"name": "Manrope", "label": "Manrope"}, {"name": "DM Sans", "label": "DM Sans"}, {"name": "Georgia", "label": "Georgia"}]}}
+      - {"name": "hero_title_size", "label": "Nome principale - Dimensione massima (px)", "type": "number", "options": {"min": 60, "max": 260}}
+      - {"name": "hero_title_spacing", "label": "Nome principale - Spaziatura (em)", "type": "string"}
+      - {"name": "hero_kicker", "label": "Frase di apertura", "type": "string"}
+      - {"name": "hero_subtitle", "label": "Sottotitolo principale", "type": "text"}
+      - {"name": "hero_image", "label": "Immagine grande in homepage", "type": "image"}
+      - {"name": "intro_text", "label": "Presentazione dei film", "type": "text"}
+      - {"name": "manifesto_line_1", "label": "Manifesto - Prima riga", "type": "string"}
+      - {"name": "manifesto_line_2", "label": "Manifesto - Seconda riga", "type": "string"}
+      - {"name": "manifesto_font", "label": "Manifesto - Carattere", "type": "select", "options": {"values": [{"name": "Manrope", "label": "Manrope - Originale"}, {"name": "DM Sans", "label": "DM Sans - Moderno"}, {"name": "Georgia", "label": "Georgia - Editoriale"}]}}
+      - {"name": "manifesto_size", "label": "Manifesto - Dimensione massima (px)", "type": "number", "options": {"min": 30, "max": 120}}
+      - {"name": "manifesto_spacing", "label": "Manifesto - Spaziatura lettere (em)", "type": "string"}
+      - {"name": "manifesto_emphasis", "label": "Manifesto - Ultima parola in corsivo", "type": "boolean"}
+      - {"name": "contact_kicker", "label": "Contatti - Frase piccola", "type": "string"}
+      - {"name": "contact_line_1", "label": "Contatti - Prima riga", "type": "string"}
+      - {"name": "contact_line_2", "label": "Contatti - Seconda riga", "type": "string"}
+      - {"name": "contact_kicker_size", "label": "Contatti - Dimensione frase piccola (px, 0 = originale)", "type": "number", "options": {"min": 0, "max": 100}}
+      - {"name": "contact_line_1_size", "label": "Contatti - Dimensione prima riga (px, 0 = originale)", "type": "number", "options": {"min": 0, "max": 200}}
+      - {"name": "contact_line_2_size", "label": "Contatti - Dimensione seconda riga (px, 0 = originale)", "type": "number", "options": {"min": 0, "max": 200}}
+      - {"name": "about_paragraph_1", "label": "Biografia - paragrafo 1", "type": "text"}
+      - {"name": "about_paragraph_2", "label": "Biografia - paragrafo 2", "type": "text"}
+      - {"name": "about_paragraph_3", "label": "Biografia - paragrafo 3", "type": "text"}
+      - {"name": "contact_email", "label": "Email di contatto", "type": "string"}
+      - {"name": "youtube_url", "label": "Link YouTube generale", "type": "string"}
+
+  - name: films
+    label: Film e progetti
+    type: file
+    path: data/films.json
+    format: json
+    list: true
+    fields:
+      - {"name": "slug", "label": "Identificativo del film", "type": "string", "required": true}
+      - {"name": "title", "label": "Titolo", "type": "string", "required": true}
+      - {"name": "category", "label": "Categoria", "type": "string"}
+      - {"name": "description", "label": "Sinossi", "type": "text"}
+      - {"name": "year", "label": "Anno", "type": "string"}
+      - {"name": "format", "label": "Durata e formato", "type": "string"}
+      - {"name": "video_url", "label": "Link video YouTube", "type": "string"}
+      - {"name": "image", "label": "Fotogramma o locandina", "type": "image"}
+      - {"name": "homepage_label", "label": "Etichetta homepage", "type": "string"}
+      - {"name": "homepage_kicker", "label": "Sottotitolo breve", "type": "string"}
+      - {"name": "homepage_subtitle", "label": "Descrizione breve", "type": "string"}
+      - {"name": "visible", "label": "Visibile nella homepage", "type": "boolean"}
+
+  - name: typography
+    label: Grafica e tipografia
+    type: file
+    path: data/typography.json
+    format: json
+    fields:
+      - {"name": "brand_font", "label": "Logo THE MIND — Font", "type": "select", "options": {"values": [{"name": "Originale", "label": "Originale (nessuna modifica)"}, {"name": "Manrope", "label": "Manrope"}, {"name": "DM Sans", "label": "DM Sans"}, {"name": "Georgia", "label": "Georgia"}]}}
+      - {"name": "brand_size", "label": "Logo THE MIND — Dimensione px (0 = originale)", "type": "number", "options": {"min": 0, "max": 260}}
+      - {"name": "brand_spacing", "label": "Logo THE MIND — Spaziatura em (vuoto = originale)", "type": "string"}
+      - {"name": "navigation_font", "label": "Menu di navigazione — Font", "type": "select", "options": {"values": [{"name": "Originale", "label": "Originale (nessuna modifica)"}, {"name": "Manrope", "label": "Manrope"}, {"name": "DM Sans", "label": "DM Sans"}, {"name": "Georgia", "label": "Georgia"}]}}
+      - {"name": "navigation_size", "label": "Menu di navigazione — Dimensione px (0 = originale)", "type": "number", "options": {"min": 0, "max": 260}}
+      - {"name": "navigation_spacing", "label": "Menu di navigazione — Spaziatura em (vuoto = originale)", "type": "string"}
+      - {"name": "header_note_font", "label": "Scritta Independent Filmmaking — Font", "type": "select", "options": {"values": [{"name": "Originale", "label": "Originale (nessuna modifica)"}, {"name": "Manrope", "label": "Manrope"}, {"name": "DM Sans", "label": "DM Sans"}, {"name": "Georgia", "label": "Georgia"}]}}
+      - {"name": "header_note_size", "label": "Scritta Independent Filmmaking — Dimensione px (0 = originale)", "type": "number", "options": {"min": 0, "max": 260}}
+      - {"name": "header_note_spacing", "label": "Scritta Independent Filmmaking — Spaziatura em (vuoto = originale)", "type": "string"}
+      - {"name": "hero_eyebrow_font", "label": "Director & Filmmaker ed etichetta — Font", "type": "select", "options": {"values": [{"name": "Originale", "label": "Originale (nessuna modifica)"}, {"name": "Manrope", "label": "Manrope"}, {"name": "DM Sans", "label": "DM Sans"}, {"name": "Georgia", "label": "Georgia"}]}}
+      - {"name": "hero_eyebrow_size", "label": "Director & Filmmaker ed etichetta — Dimensione px (0 = originale)", "type": "number", "options": {"min": 0, "max": 260}}
+      - {"name": "hero_eyebrow_spacing", "label": "Director & Filmmaker ed etichetta — Spaziatura em (vuoto = originale)", "type": "string"}
+      - {"name": "hero_title_font", "label": "CLAUDIO D’AVASCIO — Font", "type": "select", "options": {"values": [{"name": "Originale", "label": "Originale (nessuna modifica)"}, {"name": "Manrope", "label": "Manrope"}, {"name": "DM Sans", "label": "DM Sans"}, {"name": "Georgia", "label": "Georgia"}]}}
+      - {"name": "hero_title_size", "label": "CLAUDIO D’AVASCIO — Dimensione px (0 = originale)", "type": "number", "options": {"min": 0, "max": 260}}
+      - {"name": "hero_title_spacing", "label": "CLAUDIO D’AVASCIO — Spaziatura em (vuoto = originale)", "type": "string"}
+      - {"name": "hero_kicker_font", "label": "Images Stories Obsessions — Font", "type": "select", "options": {"values": [{"name": "Originale", "label": "Originale (nessuna modifica)"}, {"name": "Manrope", "label": "Manrope"}, {"name": "DM Sans", "label": "DM Sans"}, {"name": "Georgia", "label": "Georgia"}]}}
+      - {"name": "hero_kicker_size", "label": "Images Stories Obsessions — Dimensione px (0 = originale)", "type": "number", "options": {"min": 0, "max": 260}}
+      - {"name": "hero_kicker_spacing", "label": "Images Stories Obsessions — Spaziatura em (vuoto = originale)", "type": "string"}
+      - {"name": "hero_subtitle_font", "label": "Film Director e sottotitolo — Font", "type": "select", "options": {"values": [{"name": "Originale", "label": "Originale (nessuna modifica)"}, {"name": "Manrope", "label": "Manrope"}, {"name": "DM Sans", "label": "DM Sans"}, {"name": "Georgia", "label": "Georgia"}]}}
+      - {"name": "hero_subtitle_size", "label": "Film Director e sottotitolo — Dimensione px (0 = originale)", "type": "number", "options": {"min": 0, "max": 260}}
+      - {"name": "hero_subtitle_spacing", "label": "Film Director e sottotitolo — Spaziatura em (vuoto = originale)", "type": "string"}
+      - {"name": "hero_caption_font", "label": "Descrizione sotto Film Director — Font", "type": "select", "options": {"values": [{"name": "Originale", "label": "Originale (nessuna modifica)"}, {"name": "Manrope", "label": "Manrope"}, {"name": "DM Sans", "label": "DM Sans"}, {"name": "Georgia", "label": "Georgia"}]}}
+      - {"name": "hero_caption_size", "label": "Descrizione sotto Film Director — Dimensione px (0 = originale)", "type": "number", "options": {"min": 0, "max": 260}}
+      - {"name": "hero_caption_spacing", "label": "Descrizione sotto Film Director — Spaziatura em (vuoto = originale)", "type": "string"}
+      - {"name": "section_index_font", "label": "Numeri e intestazioni delle sezioni — Font", "type": "select", "options": {"values": [{"name": "Originale", "label": "Originale (nessuna modifica)"}, {"name": "Manrope", "label": "Manrope"}, {"name": "DM Sans", "label": "DM Sans"}, {"name": "Georgia", "label": "Georgia"}]}}
+      - {"name": "section_index_size", "label": "Numeri e intestazioni delle sezioni — Dimensione px (0 = originale)", "type": "number", "options": {"min": 0, "max": 260}}
+      - {"name": "section_index_spacing", "label": "Numeri e intestazioni delle sezioni — Spaziatura em (vuoto = originale)", "type": "string"}
+      - {"name": "intro_title_font", "label": "STORIES THAT STAY WITH YOU — Font", "type": "select", "options": {"values": [{"name": "Originale", "label": "Originale (nessuna modifica)"}, {"name": "Manrope", "label": "Manrope"}, {"name": "DM Sans", "label": "DM Sans"}, {"name": "Georgia", "label": "Georgia"}]}}
+      - {"name": "intro_title_size", "label": "STORIES THAT STAY WITH YOU — Dimensione px (0 = originale)", "type": "number", "options": {"min": 0, "max": 260}}
+      - {"name": "intro_title_spacing", "label": "STORIES THAT STAY WITH YOU — Spaziatura em (vuoto = originale)", "type": "string"}
+      - {"name": "intro_body_font", "label": "Presentazione film — Font", "type": "select", "options": {"values": [{"name": "Originale", "label": "Originale (nessuna modifica)"}, {"name": "Manrope", "label": "Manrope"}, {"name": "DM Sans", "label": "DM Sans"}, {"name": "Georgia", "label": "Georgia"}]}}
+      - {"name": "intro_body_size", "label": "Presentazione film — Dimensione px (0 = originale)", "type": "number", "options": {"min": 0, "max": 260}}
+      - {"name": "intro_body_spacing", "label": "Presentazione film — Spaziatura em (vuoto = originale)", "type": "string"}
+      - {"name": "project_labels_font", "label": "Categorie, anni ed etichette dei film — Font", "type": "select", "options": {"values": [{"name": "Originale", "label": "Originale (nessuna modifica)"}, {"name": "Manrope", "label": "Manrope"}, {"name": "DM Sans", "label": "DM Sans"}, {"name": "Georgia", "label": "Georgia"}]}}
+      - {"name": "project_labels_size", "label": "Categorie, anni ed etichette dei film — Dimensione px (0 = originale)", "type": "number", "options": {"min": 0, "max": 260}}
+      - {"name": "project_labels_spacing", "label": "Categorie, anni ed etichette dei film — Spaziatura em (vuoto = originale)", "type": "string"}
+      - {"name": "reel_title_font", "label": "Titolo dello showreel — Font", "type": "select", "options": {"values": [{"name": "Originale", "label": "Originale (nessuna modifica)"}, {"name": "Manrope", "label": "Manrope"}, {"name": "DM Sans", "label": "DM Sans"}, {"name": "Georgia", "label": "Georgia"}]}}
+      - {"name": "reel_title_size", "label": "Titolo dello showreel — Dimensione px (0 = originale)", "type": "number", "options": {"min": 0, "max": 260}}
+      - {"name": "reel_title_spacing", "label": "Titolo dello showreel — Spaziatura em (vuoto = originale)", "type": "string"}
+      - {"name": "film_titles_font", "label": "Titoli di tutti gli altri film — Font", "type": "select", "options": {"values": [{"name": "Originale", "label": "Originale (nessuna modifica)"}, {"name": "Manrope", "label": "Manrope"}, {"name": "DM Sans", "label": "DM Sans"}, {"name": "Georgia", "label": "Georgia"}]}}
+      - {"name": "film_titles_size", "label": "Titoli di tutti gli altri film — Dimensione px (0 = originale)", "type": "number", "options": {"min": 0, "max": 260}}
+      - {"name": "film_titles_spacing", "label": "Titoli di tutti gli altri film — Spaziatura em (vuoto = originale)", "type": "string"}
+      - {"name": "project_captions_font", "label": "Sottotitoli sulle card dei film — Font", "type": "select", "options": {"values": [{"name": "Originale", "label": "Originale (nessuna modifica)"}, {"name": "Manrope", "label": "Manrope"}, {"name": "DM Sans", "label": "DM Sans"}, {"name": "Georgia", "label": "Georgia"}]}}
+      - {"name": "project_captions_size", "label": "Sottotitoli sulle card dei film — Dimensione px (0 = originale)", "type": "number", "options": {"min": 0, "max": 260}}
+      - {"name": "project_captions_spacing", "label": "Sottotitoli sulle card dei film — Spaziatura em (vuoto = originale)", "type": "string"}
+      - {"name": "awards_titles_font", "label": "Nomi di festival e premi — Font", "type": "select", "options": {"values": [{"name": "Originale", "label": "Originale (nessuna modifica)"}, {"name": "Manrope", "label": "Manrope"}, {"name": "DM Sans", "label": "DM Sans"}, {"name": "Georgia", "label": "Georgia"}]}}
+      - {"name": "awards_titles_size", "label": "Nomi di festival e premi — Dimensione px (0 = originale)", "type": "number", "options": {"min": 0, "max": 260}}
+      - {"name": "awards_titles_spacing", "label": "Nomi di festival e premi — Spaziatura em (vuoto = originale)", "type": "string"}
+      - {"name": "awards_details_font", "label": "Anni e descrizioni dei premi — Font", "type": "select", "options": {"values": [{"name": "Originale", "label": "Originale (nessuna modifica)"}, {"name": "Manrope", "label": "Manrope"}, {"name": "DM Sans", "label": "DM Sans"}, {"name": "Georgia", "label": "Georgia"}]}}
+      - {"name": "awards_details_size", "label": "Anni e descrizioni dei premi — Dimensione px (0 = originale)", "type": "number", "options": {"min": 0, "max": 260}}
+      - {"name": "awards_details_spacing", "label": "Anni e descrizioni dei premi — Spaziatura em (vuoto = originale)", "type": "string"}
+      - {"name": "manifesto_font", "label": "BEYOND THE IMAGE / BENEATH THE SURFACE — Font", "type": "select", "options": {"values": [{"name": "Originale", "label": "Originale (nessuna modifica)"}, {"name": "Manrope", "label": "Manrope"}, {"name": "DM Sans", "label": "DM Sans"}, {"name": "Georgia", "label": "Georgia"}]}}
+      - {"name": "manifesto_size", "label": "BEYOND THE IMAGE / BENEATH THE SURFACE — Dimensione px (0 = originale)", "type": "number", "options": {"min": 0, "max": 260}}
+      - {"name": "manifesto_spacing", "label": "BEYOND THE IMAGE / BENEATH THE SURFACE — Spaziatura em (vuoto = originale)", "type": "string"}
+      - {"name": "about_title_font", "label": "A LIFE IN FRAMES — Font", "type": "select", "options": {"values": [{"name": "Originale", "label": "Originale (nessuna modifica)"}, {"name": "Manrope", "label": "Manrope"}, {"name": "DM Sans", "label": "DM Sans"}, {"name": "Georgia", "label": "Georgia"}]}}
+      - {"name": "about_title_size", "label": "A LIFE IN FRAMES — Dimensione px (0 = originale)", "type": "number", "options": {"min": 0, "max": 260}}
+      - {"name": "about_title_spacing", "label": "A LIFE IN FRAMES — Spaziatura em (vuoto = originale)", "type": "string"}
+      - {"name": "about_lead_font", "label": "Primo paragrafo biografia — Font", "type": "select", "options": {"values": [{"name": "Originale", "label": "Originale (nessuna modifica)"}, {"name": "Manrope", "label": "Manrope"}, {"name": "DM Sans", "label": "DM Sans"}, {"name": "Georgia", "label": "Georgia"}]}}
+      - {"name": "about_lead_size", "label": "Primo paragrafo biografia — Dimensione px (0 = originale)", "type": "number", "options": {"min": 0, "max": 260}}
+      - {"name": "about_lead_spacing", "label": "Primo paragrafo biografia — Spaziatura em (vuoto = originale)", "type": "string"}
+      - {"name": "about_body_font", "label": "Altri paragrafi biografia — Font", "type": "select", "options": {"values": [{"name": "Originale", "label": "Originale (nessuna modifica)"}, {"name": "Manrope", "label": "Manrope"}, {"name": "DM Sans", "label": "DM Sans"}, {"name": "Georgia", "label": "Georgia"}]}}
+      - {"name": "about_body_size", "label": "Altri paragrafi biografia — Dimensione px (0 = originale)", "type": "number", "options": {"min": 0, "max": 260}}
+      - {"name": "about_body_spacing", "label": "Altri paragrafi biografia — Spaziatura em (vuoto = originale)", "type": "string"}
+      - {"name": "contact_title_font", "label": "IF YOU CAN IMAGINE IT / WE CAN CREATE IT — Font", "type": "select", "options": {"values": [{"name": "Originale", "label": "Originale (nessuna modifica)"}, {"name": "Manrope", "label": "Manrope"}, {"name": "DM Sans", "label": "DM Sans"}, {"name": "Georgia", "label": "Georgia"}]}}
+      - {"name": "contact_title_size", "label": "Titolo grande contatti — Dimensione px (0 = originale)", "type": "number", "options": {"min": 0, "max": 260}}
+      - {"name": "contact_title_spacing", "label": "Titolo grande contatti — Spaziatura em (vuoto = originale)", "type": "string"}
+      - {"name": "contact_details_font", "label": "Email e link contatti — Font", "type": "select", "options": {"values": [{"name": "Originale", "label": "Originale (nessuna modifica)"}, {"name": "Manrope", "label": "Manrope"}, {"name": "DM Sans", "label": "DM Sans"}, {"name": "Georgia", "label": "Georgia"}]}}
+      - {"name": "contact_details_size", "label": "Email e link contatti — Dimensione px (0 = originale)", "type": "number", "options": {"min": 0, "max": 260}}
+      - {"name": "contact_details_spacing", "label": "Email e link contatti — Spaziatura em (vuoto = originale)", "type": "string"}
+      - {"name": "film_page_title_font", "label": "Titolo nella scheda del film — Font", "type": "select", "options": {"values": [{"name": "Originale", "label": "Originale (nessuna modifica)"}, {"name": "Manrope", "label": "Manrope"}, {"name": "DM Sans", "label": "DM Sans"}, {"name": "Georgia", "label": "Georgia"}]}}
+      - {"name": "film_page_title_size", "label": "Titolo nella scheda del film — Dimensione px (0 = originale)", "type": "number", "options": {"min": 0, "max": 260}}
+      - {"name": "film_page_title_spacing", "label": "Titolo nella scheda del film — Spaziatura em (vuoto = originale)", "type": "string"}
+      - {"name": "film_page_body_font", "label": "Sinossi nella scheda del film — Font", "type": "select", "options": {"values": [{"name": "Originale", "label": "Originale (nessuna modifica)"}, {"name": "Manrope", "label": "Manrope"}, {"name": "DM Sans", "label": "DM Sans"}, {"name": "Georgia", "label": "Georgia"}]}}
+      - {"name": "film_page_body_size", "label": "Sinossi nella scheda del film — Dimensione px (0 = originale)", "type": "number", "options": {"min": 0, "max": 260}}
+      - {"name": "film_page_body_spacing", "label": "Sinossi nella scheda del film — Spaziatura em (vuoto = originale)", "type": "string"}
+      - {"name": "footer_font", "label": "Testi del piè di pagina — Font", "type": "select", "options": {"values": [{"name": "Originale", "label": "Originale (nessuna modifica)"}, {"name": "Manrope", "label": "Manrope"}, {"name": "DM Sans", "label": "DM Sans"}, {"name": "Georgia", "label": "Georgia"}]}}
+      - {"name": "footer_size", "label": "Testi del piè di pagina — Dimensione px (0 = originale)", "type": "number", "options": {"min": 0, "max": 260}}
+      - {"name": "footer_spacing", "label": "Testi del piè di pagina — Spaziatura em (vuoto = originale)", "type": "string"}

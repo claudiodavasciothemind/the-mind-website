@@ -67,7 +67,6 @@
 
     const line1 = site.manifesto_line_1;
     const line2 = site.manifesto_line_2;
-
     const italic = site.manifesto_emphasis !== false;
 
     if (
@@ -104,7 +103,6 @@
       addLine(line2);
     }
 
-    // Font: soltanto caratteri autorizzati
     const fonts = {
       'Manrope': '"Manrope", sans-serif',
       'DM Sans': '"DM Sans", sans-serif',
@@ -115,7 +113,6 @@
       el.style.fontFamily = fonts[site.manifesto_font];
     }
 
-    // Dimensione massima, con adattamento responsive
     const size = Number(site.manifesto_size);
 
     if (
@@ -123,16 +120,10 @@
       site.manifesto_size != null &&
       Number.isFinite(size)
     ) {
-      const safeSize = Math.min(
-        120,
-        Math.max(30, size)
-      );
-
-      el.style.fontSize =
-        `clamp(28px, 7vw, ${safeSize}px)`;
+      const safeSize = Math.min(120, Math.max(30, size));
+      el.style.fontSize = `clamp(28px, 7vw, ${safeSize}px)`;
     }
 
-    // Spaziatura delle lettere
     const spacing = Number(site.manifesto_spacing);
 
     if (
@@ -146,6 +137,151 @@
       );
 
       el.style.letterSpacing = `${safeSpacing}em`;
+    }
+  }
+
+  // CONTACT — TESTI E DIMENSIONI INDIPENDENTI
+
+  function updateContact(site) {
+    const kicker = document.querySelector('.contact-kicker');
+    const heading = document.querySelector('.contact-heading');
+
+    if (
+      kicker &&
+      typeof site.contact_kicker === 'string'
+    ) {
+      kicker.textContent = site.contact_kicker;
+    }
+
+    const kickerSize = Number(site.contact_kicker_size);
+
+    if (
+      kicker &&
+      site.contact_kicker_size != null &&
+      site.contact_kicker_size !== '' &&
+      Number.isFinite(kickerSize) &&
+      kickerSize > 0
+    ) {
+      kicker.style.fontSize =
+        `${Math.min(100, Math.max(8, kickerSize))}px`;
+    }
+
+    if (!heading) return;
+
+    const line1 =
+      typeof site.contact_line_1 === 'string'
+        ? site.contact_line_1
+        : 'IF YOU CAN IMAGINE IT.';
+
+    const line2 =
+      typeof site.contact_line_2 === 'string'
+        ? site.contact_line_2
+        : 'WE CAN CREATE IT.';
+
+    // Il testo viene inserito in modo sicuro,
+    // senza interpretare codice HTML dal CMS.
+    // Le ultime due parole restano in corsivo.
+
+    function makeLine(value) {
+      const words = value.trim().split(/\s+/).filter(Boolean);
+      const line = document.createElement('span');
+
+      line.className = 'cms-contact-line';
+
+      const normal = words.slice(0, -2).join(' ');
+      const italic = words.slice(-2).join(' ');
+
+      if (normal) {
+        line.appendChild(
+          document.createTextNode(normal + ' ')
+        );
+      }
+
+      if (italic) {
+        const em = document.createElement('em');
+        em.textContent = italic;
+        line.appendChild(em);
+      }
+
+      return line;
+    }
+
+    const first = makeLine(line1);
+    const second = makeLine(line2);
+
+    const firstSize = Number(site.contact_line_1_size);
+    const secondSize = Number(site.contact_line_2_size);
+
+    if (
+      site.contact_line_1_size != null &&
+      site.contact_line_1_size !== '' &&
+      Number.isFinite(firstSize) &&
+      firstSize > 0
+    ) {
+      const value = Math.min(200, Math.max(16, firstSize));
+      first.style.fontSize = `min(${value}px, 9vw)`;
+    }
+
+    if (
+      site.contact_line_2_size != null &&
+      site.contact_line_2_size !== '' &&
+      Number.isFinite(secondSize) &&
+      secondSize > 0
+    ) {
+      const value = Math.min(200, Math.max(16, secondSize));
+      second.style.fontSize = `min(${value}px, 9vw)`;
+    }
+
+    // Conserva la freccia e il link email.
+    // Evita che gli stili della freccia
+    // vengano applicati alle nuove righe.
+
+    const arrow = Array.from(heading.children).find(
+      el => el.tagName === 'SPAN' &&
+        !el.classList.contains('cms-contact-line')
+    );
+
+    const arrowNode = arrow
+      ? arrow.cloneNode(true)
+      : document.createElement('span');
+
+    if (!arrow) {
+      arrowNode.textContent = '↗';
+    }
+
+    heading.replaceChildren(first, second, arrowNode);
+
+    // Stile delle due righe: ereditano il font
+    // e il colore originali del titolo.
+    const styleId = 'cms-contact-line-styles';
+
+    if (!document.getElementById(styleId)) {
+      const style = document.createElement('style');
+      style.id = styleId;
+
+      style.textContent = `
+        .contact-heading > .cms-contact-line {
+          display: block;
+          position: static;
+          width: auto;
+          height: auto;
+          margin: 0;
+          padding: 0;
+          transform: none;
+          font-family: inherit;
+          font-weight: inherit;
+          font-style: inherit;
+          line-height: inherit;
+          letter-spacing: inherit;
+          color: inherit;
+        }
+
+        .contact-heading > .cms-contact-line em {
+          font-style: italic;
+        }
+      `;
+
+      document.head.appendChild(style);
     }
   }
 
@@ -211,8 +347,11 @@
       text('.hero-bottom p span', s.hero_subtitle);
       text('.intro-copy', s.intro_text);
 
-      // Manifesto: testi, font, dimensioni e corsivo
+      // Manifesto
       updateManifesto(s);
+
+      // Contatti: testi e dimensioni
+      updateContact(s);
 
       const ps = document.querySelectorAll(
         '.about-body > p'

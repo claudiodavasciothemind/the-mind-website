@@ -132,6 +132,30 @@ content:
         label: Note
         type: text
 
+  - name: gallery
+    label: Galleria fotografica
+    type: file
+    path: data/gallery.json
+    format: json
+    list: true
+    fields:
+      - name: image
+        label: Fotografia
+        type: image
+        required: true
+
+      - name: title
+        label: Titolo o didascalia
+        type: string
+
+      - name: film
+        label: Film o progetto associato
+        type: string
+
+      - name: visible
+        label: Visibile sul sito
+        type: boolean
+
   - name: typography
     label: Grafica e tipografia
     type: file

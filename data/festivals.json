@@ -19,5 +19,11 @@
     "date": "2018",
     "country": "Italy",
     "status": "Special Event"
+  },
+  {
+    "festival": "AI ZONE International AI Film Festival",
+    "film": "EVA 01",
+    "date": "2026",
+    "status": "Official Selection"
   }
 ]

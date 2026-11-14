@@ -13,7 +13,7 @@
     {
       "label": "GALLERY",
       "url": "#gallery",
-      "visible": false
+      "visible": true
     },
     {
       "label": "FESTIVALS",

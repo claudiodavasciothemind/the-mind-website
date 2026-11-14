@@ -194,6 +194,119 @@
 <script src="cms-home.js"></script>
 <script src="typography.js"></script>
 <script src="gallery.js"></script>
+  
+<script>
+/* THE MIND — Gallery horizontal navigation */
+(() => {
+  const gallery = document.querySelector('#gallery');
+  const track = document.querySelector('#gallery-grid');
+
+  if (!gallery || !track) return;
+
+  const style = document.createElement('style');
+  style.textContent = `
+    .gallery-controls {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin: -8px 0 22px;
+    }
+
+    .gallery-controls button {
+      width: 46px;
+      height: 46px;
+      display: grid;
+      place-items: center;
+      border: 1px solid #5b554e;
+      border-radius: 50%;
+      background: transparent;
+      color: #eae6df;
+      font-size: 23px;
+      cursor: pointer;
+      transition:
+        background .2s,
+        color .2s,
+        border-color .2s;
+    }
+
+    .gallery-controls button:hover:not(:disabled) {
+      background: #c6a982;
+      color: #101010;
+      border-color: #c6a982;
+    }
+
+    .gallery-controls button:disabled {
+      opacity: .3;
+      cursor: default;
+    }
+
+    @media (max-width: 620px) {
+      .gallery-controls button {
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+      }
+    }
+  `;
+  document.head.appendChild(style);
+
+  const controls = document.createElement('div');
+  controls.className = 'gallery-controls';
+
+  const previous = document.createElement('button');
+  previous.type = 'button';
+  previous.textContent = '←';
+  previous.setAttribute('aria-label', 'Previous photographs');
+
+  const next = document.createElement('button');
+  next.type = 'button';
+  next.textContent = '→';
+  next.setAttribute('aria-label', 'Next photographs');
+
+  controls.append(previous, next);
+  track.before(controls);
+
+  function updateButtons() {
+    const maxScroll = Math.max(
+      0,
+      track.scrollWidth - track.clientWidth
+    );
+
+    previous.disabled = track.scrollLeft <= 2;
+    next.disabled = track.scrollLeft >= maxScroll - 2;
+  }
+
+  function move(direction) {
+    const first = track.querySelector('.gallery-item');
+
+    const step = first
+      ? first.getBoundingClientRect().width + 12
+      : track.clientWidth * .75;
+
+    track.scrollBy({
+      left: direction * step,
+      behavior: window.matchMedia(
+        '(prefers-reduced-motion: reduce)'
+      ).matches ? 'instant' : 'smooth'
+    });
+  }
+
+  previous.addEventListener('click', () => move(-1));
+  next.addEventListener('click', () => move(1));
+
+  track.addEventListener('scroll', updateButtons, {
+    passive: true
+  });
+
+  window.addEventListener('resize', updateButtons);
+
+  const observer = new MutationObserver(updateButtons);
+  observer.observe(track, { childList: true });
+
+  updateButtons();
+})();
+</script>
+
 <script>
 /* THE MIND — Public festival archive (data/festivals.json) */
 (() => {

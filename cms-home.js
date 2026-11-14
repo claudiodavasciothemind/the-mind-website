@@ -63,6 +63,80 @@
     }
   };
 
+  // MENU PRINCIPALE — GESTIONE DA PAGES CMS
+
+  function updateMenu(site) {
+    const navigation =
+      document.querySelector('.site-header .navigation');
+
+    if (!navigation) return;
+
+    // Se il CMS non contiene il menu,
+    // manteniamo quello originale dell'HTML.
+    if (!Array.isArray(site.menu_items)) return;
+
+    const items = site.menu_items.filter(item =>
+      item &&
+      typeof item.label === 'string' &&
+      item.label.trim() !== '' &&
+      typeof item.url === 'string' &&
+      item.url.trim() !== '' &&
+      item.visible !== false
+    );
+
+    const fragment = document.createDocumentFragment();
+
+    let number = 1;
+
+    items.forEach(item => {
+      const label = item.label.trim();
+      const url = item.url.trim();
+
+      // Accettiamo solo collegamenti interni sicuri,
+      // pagine del sito e indirizzi http/https.
+      const isAnchor =
+        /^#[A-Za-z][A-Za-z0-9_-]*$/.test(url);
+
+      const isSitePage =
+        /^(?:\/)?[A-Za-z0-9_/-]+\.html(?:#[A-Za-z0-9_-]+)?$/.test(url);
+
+      const isExternal =
+        /^https?:\/\/[^/\s]+/i.test(url);
+
+      if (!isAnchor && !isSitePage && !isExternal) {
+        return;
+      }
+
+      const link = document.createElement('a');
+      link.href = url;
+
+      link.appendChild(
+        document.createTextNode(label + ' ')
+      );
+
+      const numberSpan = document.createElement('span');
+      numberSpan.textContent =
+        String(number).padStart(2, '0');
+
+      link.appendChild(numberSpan);
+
+      // I collegamenti esterni si aprono
+      // in una nuova scheda.
+      if (isExternal) {
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+      }
+
+      fragment.appendChild(link);
+      number++;
+    });
+
+    // Sostituiamo solo le voci del menu.
+    // Non tocchiamo logo, pulsante mobile,
+    // intestazione o altre parti del sito.
+    navigation.replaceChildren(fragment);
+  }
+
   // TITOLO SELECTED WORK
 
   function updateIntroTitle(site) {
@@ -94,7 +168,7 @@
     );
   }
 
-  // MANIFESTO
+  // MANIFESTO — TESTO E PERSONALIZZAZIONE
 
   function updateManifesto(site) {
     const el = document.querySelector('.manifesto-text');
@@ -368,7 +442,7 @@
     );
   }
 
-  // SCHEDE DEI FILM
+  // GESTIONE DELLE SCHEDE DEI FILM
 
   function filmCard(film, index, template) {
     const card = template.cloneNode(true);
@@ -419,7 +493,7 @@
     return card;
   }
 
-  // CARICAMENTO DATI DAL CMS
+  // CARICAMENTO DEI DATI DAL CMS
 
   async function go() {
     const [siteRes, filmsRes] = await Promise.all([
@@ -430,6 +504,10 @@
     if (siteRes.ok) {
       const s = await siteRes.json();
 
+      // Menu modificabile da Pages CMS
+      updateMenu(s);
+
+      // Testi principali
       text(
         '.eyebrow-year',
         s.professional_label
@@ -444,7 +522,7 @@
 
       text('.intro-copy', s.intro_text);
 
-      // Nuovo titolo SELECTED WORK
+      // Titolo SELECTED WORK
       updateIntroTitle(s);
 
       // Manifesto
@@ -453,6 +531,7 @@
       // Contatti
       updateContact(s);
 
+      // Biografia
       const ps = document.querySelectorAll(
         '.about-body > p'
       );
@@ -463,6 +542,7 @@
         s.about_paragraph_3
       ].forEach((p, i) => safeText(ps[i], p));
 
+      // Email di contatto
       if (s.contact_email) {
         document.querySelectorAll(
           'a[href^="mailto:"]'
@@ -476,6 +556,7 @@
         );
       }
 
+      // Link YouTube
       if (s.youtube_url) {
         const yt = document.querySelector(
           '.contact-bottom a[target="_blank"]'
@@ -486,6 +567,7 @@
         }
       }
 
+      // Immagine principale
       if (isImage(s.hero_image)) {
         setImage(
           document.querySelector('.hero-image'),
@@ -494,6 +576,7 @@
       }
     }
 
+    // Schede film
     if (filmsRes.ok) {
       const films = (await filmsRes.json())
         .filter(f =>

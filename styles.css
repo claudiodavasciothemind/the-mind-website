@@ -20,65 +20,13 @@
 .project-page-hero:before{filter:saturate(.8) contrast(1.12) brightness(.6)}
 @media(max-width:620px){.hero-image{background-position:52% 34%}.project-background{background-position:center center}}
 
-
-/* THE MIND — Gallery compact grid */
-
-.gallery-section .gallery-grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 10px;
-}
-
-.gallery-section .gallery-grid > .gallery-item,
-.gallery-section .gallery-grid > .gallery-item:nth-child(n) {
-  grid-column: span 1;
-  min-width: 0;
-}
-
-.gallery-section .gallery-grid
-> .gallery-item .gallery-image-wrap,
-.gallery-section .gallery-grid
-> .gallery-item:nth-child(n) .gallery-image-wrap {
-  aspect-ratio: 4 / 3;
-}
-
-.gallery-section .gallery-grid
-> .gallery-item img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-/* Tablet: 3 fotografie per riga */
-@media (max-width: 900px) {
-  .gallery-section .gallery-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-}
-
-/* Smartphone: 2 fotografie per riga */
-@media (max-width: 620px) {
-  .gallery-section .gallery-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 8px;
-  }
-
-  .gallery-section .gallery-label {
-    padding: 10px 0 17px;
-    flex-direction: column;
-    gap: 3px;
-  }
-
-  .gallery-section .gallery-film {
-    text-align: left;
-     
 /* THE MIND — Horizontal cinematic gallery */
 
 .gallery-section .gallery-grid {
-  display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: clamp(230px, 25vw, 340px);
-  grid-template-columns: none !important;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: flex-start;
   gap: 12px;
   overflow-x: auto;
   overflow-y: hidden;
@@ -95,8 +43,11 @@
 
 .gallery-section .gallery-grid > .gallery-item,
 .gallery-section .gallery-grid > .gallery-item:nth-child(n) {
-  grid-column: auto !important;
-  width: 100%;
+  display: block;
+  flex: 0 0 clamp(220px, 24vw, 320px);
+  width: clamp(220px, 24vw, 320px);
+  min-width: 0;
+  grid-column: auto;
   scroll-snap-align: start;
 }
 
@@ -104,10 +55,12 @@
 > .gallery-item .gallery-image-wrap,
 .gallery-section .gallery-grid
 > .gallery-item:nth-child(n) .gallery-image-wrap {
-  aspect-ratio: 4 / 3 !important;
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
 }
 
-.gallery-section .gallery-grid img {
+.gallery-section .gallery-grid > .gallery-item img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -115,59 +68,24 @@
 
 @media (max-width: 620px) {
   .gallery-section .gallery-grid {
-    grid-auto-columns: 75vw;
     gap: 10px;
   }
-}
 
+  .gallery-section .gallery-grid > .gallery-item,
+  .gallery-section .gallery-grid > .gallery-item:nth-child(n) {
+    flex: 0 0 75vw;
+    width: 75vw;
+  }
+
+  .gallery-section .gallery-label {
+    padding: 10px 0 17px;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .gallery-section .gallery-film {
+    text-align: left;
   }
 }
 
-/* THE MIND — Gallery: single horizontal row */
 
-.gallery-section .gallery-grid {
-  display: flex !important;
-  flex-direction: row !important;
-  flex-wrap: nowrap !important;
-  align-items: flex-start;
-  gap: 12px;
-  overflow-x: auto;
-  overflow-y: hidden;
-  scroll-snap-type: x mandatory;
-  scroll-behavior: smooth;
-  scrollbar-width: none;
-}
-
-.gallery-section .gallery-grid::-webkit-scrollbar {
-  display: none;
-}
-
-.gallery-section .gallery-grid > .gallery-item {
-  display: block;
-  flex: 0 0 clamp(220px, 24vw, 320px) !important;
-  width: clamp(220px, 24vw, 320px) !important;
-  min-width: 0;
-  scroll-snap-align: start;
-}
-
-.gallery-section .gallery-grid
-> .gallery-item .gallery-image-wrap {
-  display: block;
-  width: 100%;
-  aspect-ratio: 4 / 3 !important;
-}
-
-.gallery-section .gallery-grid
-> .gallery-item img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-@media (max-width: 620px) {
-  .gallery-section .gallery-grid > .gallery-item {
-    flex-basis: 75vw !important;
-    width: 75vw !important;
-  }
-}

@@ -11,6 +11,27 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* THE MIND — Festival submissions */
+    .festival-section { border-top: 1px solid rgba(255,255,255,.13); }
+    .festival-heading { margin: 24px 0 36px; font-size: clamp(38px, 7vw, 96px); line-height: .99; letter-spacing: -.065em; font-weight: 800; }
+    .festival-heading em { font-weight: 300; color: #a5a09b; }
+    .festival-intro { color: #aaa5a0; max-width: 680px; line-height: 1.7; margin-bottom: 28px; }
+    .festival-filters { display: flex; flex-wrap: wrap; gap: 12px; margin: 24px 0 30px; }
+    .festival-filters select { appearance: auto; background: #151515; color: #f4f1ed; border: 1px solid #48433b; border-radius: 0; padding: 12px 14px; font: inherit; font-size: 13px; max-width: 100%; }
+    .festival-entry { display: grid; grid-template-columns: minmax(0,2fr) minmax(0,1fr) auto; gap: 20px; align-items: center; padding: 22px 0; border-top: 1px solid rgba(255,255,255,.16); }
+    .festival-entry:last-child { border-bottom: 1px solid rgba(255,255,255,.16); }
+    .festival-entry h3 { margin: 0 0 8px; font-size: clamp(18px, 2.3vw, 27px); letter-spacing: -.035em; font-weight: 700; }
+    .festival-entry h3 a { color: inherit; text-decoration: none; }
+    .festival-entry h3 a:hover { color: #cdb38b; }
+    .festival-entry .festival-meta, .festival-entry .festival-film { color: #a5a09b; font-size: 12px; letter-spacing: .025em; }
+    .festival-entry .festival-status { color: #cdb38b; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .09em; text-align: right; }
+    .festival-empty { color: #a5a09b; padding: 26px 0; border-top: 1px solid rgba(255,255,255,.16); }
+    @media (max-width: 720px) {
+      .festival-entry { grid-template-columns: 1fr; gap: 7px; }
+      .festival-entry .festival-status { text-align: left; }
+    }
+  </style>
   <meta property="og:type" content="website" />
   <meta property="og:title" content="THE MIND — Claudio D'Avascio" />
   <meta property="og:description" content="Independent filmmaking. Selected films and director's reel." />
@@ -100,6 +121,23 @@
       </a>
     </section>
 
+    <section class="festival-section section-pad" id="festivals" aria-labelledby="festival-title">
+      <div class="section-index">FESTIVALS &amp; SUBMISSIONS</div>
+      <h2 class="festival-heading" id="festival-title">THE FESTIVAL<br><em>JOURNEY.</em></h2>
+      <p class="festival-intro">A complete record of festival submissions, selections and awards across my films.</p>
+      <div class="festival-filters">
+        <select id="festival-filter-film" aria-label="Filter festivals by film">
+          <option value="">ALL FILMS</option>
+        </select>
+        <select id="festival-filter-status" aria-label="Filter festivals by status">
+          <option value="">ALL STATUSES</option>
+        </select>
+      </div>
+      <div id="festival-list" aria-live="polite">
+        <p class="festival-empty">Festival submissions will appear here soon.</p>
+      </div>
+    </section>
+
     <section class="recognition section-pad" id="recognition">
       <div class="section-index">02 — SELECTED RECOGNITION</div>
       <div class="recognition-list">
@@ -154,6 +192,108 @@
 <script src="script.js"></script>
 <script src="cms-home.js"></script>
 <script src="typography.js"></script>
+<script>
+/* THE MIND — Public festival archive (data/festivals.json) */
+(() => {
+  const list = document.getElementById('festival-list');
+  const filmFilter = document.getElementById('festival-filter-film');
+  const statusFilter = document.getElementById('festival-filter-status');
+  if (!list || !filmFilter || !statusFilter) return;
+
+  const labels = {
+    submitted: 'SUBMITTED',
+    under_consideration: 'UNDER CONSIDERATION',
+    official_selection: 'OFFICIAL SELECTION',
+    finalist: 'FINALIST',
+    award_winner: 'AWARD WINNER',
+    not_selected: 'NOT SELECTED'
+  };
+  let entries = [];
+
+  const paragraph = message => {
+    const p = document.createElement('p');
+    p.className = 'festival-empty';
+    p.textContent = message;
+    list.replaceChildren(p);
+  };
+  const option = (value, label) => {
+    const el = document.createElement('option');
+    el.value = value;
+    el.textContent = label;
+    return el;
+  };
+  const statusName = value => labels[value] || String(value || '').replace(/_/g, ' ').toUpperCase();
+  const validUrl = value => {
+    try {
+      const u = new URL(value);
+      return ['https:', 'http:'].includes(u.protocol) ? u.href : null;
+    } catch (_) { return null; }
+  };
+
+  function render() {
+    const chosen = entries.filter(item =>
+      (!filmFilter.value || item.film === filmFilter.value) &&
+      (!statusFilter.value || item.status === statusFilter.value)
+    );
+    if (!chosen.length) {
+      paragraph(entries.length ? 'No submissions match these filters.' : 'Festival submissions will appear here soon.');
+      return;
+    }
+    const fragment = document.createDocumentFragment();
+    for (const item of chosen) {
+      const row = document.createElement('article');
+      row.className = 'festival-entry';
+      const main = document.createElement('div');
+      const title = document.createElement('h3');
+      const url = validUrl(item.url);
+      if (url) {
+        const a = document.createElement('a');
+        a.href = url;
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer';
+        a.textContent = item.festival;
+        title.appendChild(a);
+      } else {
+        title.textContent = item.festival;
+      }
+      const meta = document.createElement('p');
+      meta.className = 'festival-meta';
+      meta.textContent = [item.country, item.date].filter(Boolean).join(' · ');
+      main.append(title, meta);
+      const film = document.createElement('div');
+      film.className = 'festival-film';
+      film.textContent = item.film || '';
+      const status = document.createElement('span');
+      status.className = 'festival-status';
+      status.textContent = statusName(item.status);
+      row.append(main, film, status);
+      fragment.appendChild(row);
+    }
+    list.replaceChildren(fragment);
+  }
+
+  async function load() {
+    try {
+      const response = await fetch('data/festivals.json', { cache: 'no-cache' });
+      if (!response.ok) throw new Error('Festival data unavailable');
+      const data = await response.json();
+      entries = (Array.isArray(data) ? data : []).filter(item => item && typeof item.festival === 'string' && item.festival.trim());
+      entries.sort((a, b) => String(b.date || '').localeCompare(String(a.date || '')));
+      for (const film of [...new Set(entries.map(item => item.film).filter(Boolean))].sort()) {
+        filmFilter.appendChild(option(film, film));
+      }
+      for (const status of [...new Set(entries.map(item => item.status).filter(Boolean))]) {
+        statusFilter.appendChild(option(status, statusName(status)));
+      }
+      render();
+    } catch (_) {
+      paragraph('Festival submissions will appear here soon.');
+    }
+  }
+  filmFilter.addEventListener('change', render);
+  statusFilter.addEventListener('change', render);
+  load();
+})();
+</script>
 </body>
 </html>
-

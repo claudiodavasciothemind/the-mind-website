@@ -12,6 +12,25 @@ content:
     path: data/site.json
     format: json
     fields:
+    
+      - name: menu_items
+        label: Menu principale
+        type: object
+        list: true
+        fields:
+          - name: label
+            label: Nome della voce
+            type: string
+            required: true
+          - name: url
+            label: Collegamento
+            type: string
+            required: true
+            description: "Esempio: #work, #festivals, #about oppure un indirizzo https://..."
+          - name: visible
+            label: Visibile nel menu
+            type: boolean
+
       - {"name": "professional_label", "label": "Etichetta professionale", "type": "string"}
       - {"name": "hero_title_font", "label": "Nome principale - Font", "type": "select", "options": {"values": [{"name": "Manrope", "label": "Manrope"}, {"name": "DM Sans", "label": "DM Sans"}, {"name": "Georgia", "label": "Georgia"}]}}
       - {"name": "hero_title_size", "label": "Nome principale - Dimensione massima (px)", "type": "number", "options": {"min": 60, "max": 260}}

@@ -122,3 +122,52 @@
 
   }
 }
+
+/* THE MIND — Gallery: single horizontal row */
+
+.gallery-section .gallery-grid {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  align-items: flex-start;
+  gap: 12px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+}
+
+.gallery-section .gallery-grid::-webkit-scrollbar {
+  display: none;
+}
+
+.gallery-section .gallery-grid > .gallery-item {
+  display: block;
+  flex: 0 0 clamp(220px, 24vw, 320px) !important;
+  width: clamp(220px, 24vw, 320px) !important;
+  min-width: 0;
+  scroll-snap-align: start;
+}
+
+.gallery-section .gallery-grid
+> .gallery-item .gallery-image-wrap {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3 !important;
+}
+
+.gallery-section .gallery-grid
+> .gallery-item img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (max-width: 620px) {
+  .gallery-section .gallery-grid > .gallery-item {
+    flex-basis: 75vw !important;
+    width: 75vw !important;
+  }
+}

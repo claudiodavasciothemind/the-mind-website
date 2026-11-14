@@ -2,22 +2,22 @@
   {
     "festival": "71st Salerno International Film Festival",
     "film": "IL MANUTENTORE",
-    "date": "2017-11-14",
+    "date": "2017",
     "country": "Italy",
     "status": "Award Winner"
   },
   {
     "festival": "Charleston Nuovo Cinema Italiano Film Festival",
     "film": "IL MANUTENTORE",
-    "date": "2017-04-01",
+    "date": "2017",
     "country": "USA",
     "status": "Official Selection"
   },
   {
     "festival": "Sottodiciotto Film Festival, Turin",
     "film": "IL MANUTENTORE",
-    "date": "2018-11-14",
+    "date": "2018",
     "country": "Italy",
-    "status": "Official Selection"
+    "status": "Special Event"
   }
 ]

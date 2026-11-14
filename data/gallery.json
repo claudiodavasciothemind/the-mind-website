@@ -1,7 +1,11 @@
 [
   {
-    "image": "/images/vlcsnap-2026-10-01-12h33m51s837.png",
+    "image": "/images/vlcsnap-2026-10-01-12h40m01s964-copy.jpg",
     "film": "EVA 01",
     "visible": true
+  },
+  {
+    "image": "/images/vlcsnap-2026-10-01-12h33m22s073-copy.jpg",
+    "visible": false
   }
 ]

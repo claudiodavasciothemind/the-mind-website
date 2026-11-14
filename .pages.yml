@@ -60,6 +60,68 @@ content:
       - {"name": "homepage_subtitle", "label": "Descrizione breve", "type": "string"}
       - {"name": "visible", "label": "Visibile nella homepage", "type": "boolean"}
 
+  - name: festivals
+    label: Festival e candidature
+    type: file
+    path: data/festivals.json
+    format: json
+    list: true
+    fields:
+      - name: festival
+        label: Nome del festival
+        type: string
+        required: true
+
+      - name: film
+        label: Film candidato
+        type: select
+        options:
+          values:
+            - name: EVA 01
+              label: EVA 01
+            - name: THE ORDINARY PSYCHOS
+              label: THE ORDINARY PSYCHOS
+            - name: THE WHITE FLY
+              label: THE WHITE FLY
+            - name: IL MANUTENTORE
+              label: IL MANUTENTORE
+            - name: OTHER
+              label: Altro progetto
+
+      - name: date
+        label: Data della candidatura
+        type: date
+
+      - name: country
+        label: Paese
+        type: string
+
+      - name: status
+        label: Stato della candidatura
+        type: select
+        options:
+          values:
+            - name: Submitted
+              label: Candidatura inviata
+            - name: Under Consideration
+              label: In valutazione
+            - name: Official Selection
+              label: Selezione ufficiale
+            - name: Finalist
+              label: Finalista
+            - name: Award Winner
+              label: Premio ricevuto
+            - name: Not Selected
+              label: Non selezionato
+
+      - name: url
+        label: Link del festival
+        type: string
+
+      - name: notes
+        label: Note
+        type: text
+
   - name: typography
     label: Grafica e tipografia
     type: file

@@ -88,9 +88,12 @@ content:
             - name: OTHER
               label: Altro progetto
 
+      
       - name: date
-        label: Data della candidatura
-        type: date
+        label: Anno
+        type: string
+        description: "Inserisci solo l'anno, es. 2026"
+
 
       - name: country
         label: Paese
@@ -107,6 +110,8 @@ content:
               label: In valutazione
             - name: Official Selection
               label: Selezione ufficiale
+            - name: Special Event
+              label: Evento speciale
             - name: Finalist
               label: Finalista
             - name: Award Winner

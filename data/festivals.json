@@ -21,8 +21,15 @@
     "status": "Special Event"
   },
   {
-    "festival": "AI ZONE International AI Film Festival",
+    "festival": "AI ZONE International AI Film Festival — 2nd Edition",
     "film": "EVA 01",
+    "date": "2026",
+    "country": "Online / International",
+    "status": "Official Selection"
+  },
+  {
+    "festival": "AI ZONE International AI Film Festival — 2nd Edition",
+    "film": "THE ORDINARY PSYCHOS",
     "date": "2026",
     "country": "Online / International",
     "status": "Official Selection"

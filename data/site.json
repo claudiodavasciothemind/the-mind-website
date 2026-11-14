@@ -1,5 +1,29 @@
 
 {
+  
+"menu_items": [
+  {
+    "label": "WORK",
+    "url": "#work",
+    "visible": true
+  },
+  {
+    "label": "FESTIVALS",
+    "url": "#festivals",
+    "visible": true
+  },
+  {
+    "label": "ABOUT",
+    "url": "#about",
+    "visible": true
+  },
+  {
+    "label": "CONTACT",
+    "url": "#contact",
+    "visible": true
+  }
+],
+
   "professional_label": "CINEMA & VISUAL STORYTELLING",
   "hero_kicker": "IMAGES. STORIES. OBSESSIONS.",
   "hero_subtitle": "Exploring the human condition through cinema.",

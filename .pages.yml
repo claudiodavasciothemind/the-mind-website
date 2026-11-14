@@ -12,7 +12,6 @@ content:
     path: data/site.json
     format: json
     fields:
-    
       - name: menu_items
         label: Menu principale
         type: object
@@ -91,19 +90,15 @@ content:
         type: string
         required: true
 
-      
-     - name: film
-       label: Nome del film
-       type: string
-       required: true
+      - name: film
+        label: Nome del film
+        type: string
+        required: true
 
-
-      
       - name: date
         label: Anno
         type: string
         description: "Inserisci solo l'anno, es. 2026"
-
 
       - name: country
         label: Paese

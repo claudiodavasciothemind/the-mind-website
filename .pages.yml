@@ -91,21 +91,12 @@ content:
         type: string
         required: true
 
-      - name: film
-        label: Film candidato
-        type: select
-        options:
-          values:
-            - name: EVA 01
-              label: EVA 01
-            - name: THE ORDINARY PSYCHOS
-              label: THE ORDINARY PSYCHOS
-            - name: THE WHITE FLY
-              label: THE WHITE FLY
-            - name: IL MANUTENTORE
-              label: IL MANUTENTORE
-            - name: OTHER
-              label: Altro progetto
+      
+     - name: film
+       label: Nome del film
+       type: string
+       required: true
+
 
       
       - name: date
